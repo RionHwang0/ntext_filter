@@ -26,85 +26,145 @@ const AudioSummary: React.FC<AudioSummaryProps> = ({ fundData }) => {
   const [currentSection, setCurrentSection] = useState(0);
   const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
 
-  // 음성 스크립트 데이터
+  // 자연스러운 음성 스크립트 데이터
   const audioScripts: AudioScript[] = [
     {
       title: '펀드 개요',
       duration: '15초',
-      content: `안녕하세요. ${fundData.manager}의 ${fundData.name}을 소개해드립니다. 이 펀드는 미국 S&P 500 지수를 추종하는 상품으로, 미국 대표 500개 기업에 분산투자합니다.`
+      content: `안녕하세요! ${fundData.manager}에서 운용하는, ${fundData.name}을 소개해드리겠습니다. 
+      
+      이 펀드는... 미국의 에스앤피 파이브헌드레드 지수를 따라가는 상품으로써, 미국을 대표하는 500개 우량기업에... 분산투자를 하고 있습니다.`
     },
     {
       title: '수익률 정보',
       duration: '20초',
-      content: `최근 1년간 우수한 성과를 보이고 있습니다. A-e 클래스 기준으로 연간 수익률 ${fundData.returnRates[2]?.yearReturn || 36.32}%, 설정 이후 수익률 ${fundData.returnRates[2]?.setupReturn || 24.12}%를 달성했습니다. 이는 미국 주식시장의 강세에 힘입은 결과입니다.`
+      content: `최근 1년간... 정말 우수한 성과를 보여주고 있는데요. 
+      
+      에이-이 클래스를 기준으로 보면... 연간 수익률이 ${fundData.returnRates[2]?.yearReturn || 36.32}퍼센트, 그리고 설정 이후 누적 수익률은 ${fundData.returnRates[2]?.setupReturn || 24.12}퍼센트를 기록했습니다. 
+      
+      이는... 미국 주식시장의 강한 상승세에 힘입은 결과라고 볼 수 있겠습니다.`
     },
     {
       title: '위험도 및 비용',
       duration: '15초',
-      content: `위험등급은 ${fundData.riskLevel}으로 중간 수준의 위험을 가지고 있습니다. 총 보수는 온라인 클래스 기준 ${fundData.costs[2]?.totalFee || '0.81%'}로 합리적인 수준입니다.`
+      content: `위험등급은... ${fundData.riskLevel.replace('등급', '등급으로')} 분류되어, 중간 정도의 위험 수준을 가지고 있습니다. 
+      
+      총 보수료는... 온라인 클래스 기준으로 ${fundData.costs[2]?.totalFee || '영점팔일퍼센트'}정도로, 상당히 합리적인 수준이라고 할 수 있겠습니다.`
     },
     {
       title: '투자 포인트',
       duration: '10초',
-      content: `500개 대기업에 분산투자로 개별 기업 위험을 줄이면서, 미국 경제 성장의 수혜를 받을 수 있는 상품입니다. 장기 투자에 적합합니다.`
+      content: `500개의 대형 우량기업에... 분산투자를 함으로써 개별 기업의 위험은 줄이면서도, 미국 경제 전체의 성장 혜택을 받을 수 있는... 그런 상품입니다. 
+      
+      특히... 장기 투자에 매우 적합하다고 보시면 되겠습니다.`
     }
   ];
 
-  // 전체 요약 스크립트 (1분 버전)
+  // 자연스러운 전체 요약 스크립트 (1분 버전)
   const fullSummaryScript = `
-    안녕하세요. ${fundData.manager}의 S&P 500 추종 펀드를 소개해드립니다.
+    안녕하세요! ${fundData.manager}에서 운용하는... 에스앤피 파이브헌드레드 추종 펀드를 소개해드리겠습니다.
     
-    이 펀드는 미국 대표 500개 기업에 투자하는 상품으로, 최근 1년간 36% 이상의 우수한 수익률을 기록했습니다.
+    이 펀드는... 미국을 대표하는 500개 우량기업에 투자하는 상품으로써, 최근 1년간... 36퍼센트 이상의 정말 우수한 수익률을 기록하고 있습니다.
     
-    위험등급은 2등급 중위험으로, 총 보수는 온라인 클래스 기준 0.81%입니다.
+    위험등급은... 2등급 중위험으로 분류되며, 총 보수료는... 온라인 클래스 기준으로 영점팔일퍼센트 수준입니다.
     
-    애플, 마이크로소프트, 아마존 등 글로벌 대기업들에 분산투자하여, 개별 기업 위험은 줄이면서 미국 경제 성장의 수혜를 받을 수 있습니다.
+    애플, 마이크로소프트, 아마존과 같은... 글로벌 대기업들에 분산투자를 함으로써, 개별 기업의 위험은 줄이면서도... 미국 경제 전체의 성장 혜택을 받을 수 있는 구조입니다.
     
-    달러 투자로 인한 환율 위험이 있지만, 장기적으로 미국 주식시장 성장에 참여하고 싶은 투자자에게 적합한 상품입니다.
+    달러 투자로 인한... 환율 변동 위험이 있기는 하지만, 장기적으로 미국 주식시장의 성장에 참여하고 싶으신... 투자자분들에게는 매우 적합한 상품이라고 할 수 있겠습니다.
     
-    투자 전 상품설명서를 꼼꼼히 확인하시고, 개인의 투자 성향에 맞는지 검토해보시기 바랍니다.
+    다만... 투자하시기 전에는 반드시 상품설명서를 꼼꼼히 확인해보시고, 개인의 투자 성향과... 위험 감수 능력에 맞는지 충분히 검토해보시기 바랍니다.
+    
+    감사합니다!
   `;
 
-  // 음성 재생 함수
+  // 자연스러운 음성 재생 함수
   const speakText = (text: string) => {
     if ('speechSynthesis' in window) {
       // 기존 음성 정지
       window.speechSynthesis.cancel();
 
-      const utterance = new SpeechSynthesisUtterance(text);
+      // 텍스트 전처리 - 더 자연스러운 발음을 위해
+      const processedText = text
+        .replace(/S&P 500/g, '에스앤피 파이브헌드레드')
+        .replace(/A-e/g, '에이-이')
+        .replace(/(\d+)%/g, '$1퍼센트')
+        .replace(/0\.81%/g, '영점팔일퍼센트')
+        .replace(/2등급/g, '이등급')
+        .replace(/500개/g, '오백개')
+        .replace(/36\.32/g, '삼십육점삼이')
+        .replace(/24\.12/g, '이십사점일이')
+        .replace(/USD/g, '달러')
+        .replace(/ETF/g, '이티에프')
+        .replace(/CEO/g, '씨이오')
+        .replace(/AI/g, '에이아이')
+        .replace(/IT/g, '아이티')
+        .replace(/\d{4}년/g, (match) => match.replace('년', '년도'))
+        .replace(/(\d+)조/g, '$1조원')
+        .replace(/(\d+)억/g, '$1억원')
+        .replace(/\./g, '점')
+        .replace(/,/g, ', ')  // 쉼표 뒤에 공백 추가
+        .replace(/\s+/g, ' ')  // 여러 공백을 하나로
+        .replace(/\n\s*/g, ' ') // 줄바꿈을 공백으로 변환
+        .replace(/\.\.\./g, ', ') // 말줄임표를 쉼표로 변환하여 자연스러운 쉼
+        .trim();
+
+      const utterance = new SpeechSynthesisUtterance(processedText);
       
-      // 한국어 음성 설정
+      // 한국어 음성 설정 - 더 나은 음성 선택
       const voices = window.speechSynthesis.getVoices();
+      
+      // 우선순위: 한국어 여성 음성 > 한국어 남성 음성 > 기본 한국어 음성
       const koreanVoice = voices.find(voice => 
+        (voice.lang.includes('ko') || voice.name.includes('Korean')) &&
+        (voice.name.includes('Female') || voice.name.includes('여성'))
+      ) || voices.find(voice => 
         voice.lang.includes('ko') || voice.name.includes('Korean')
       );
+      
       if (koreanVoice) {
         utterance.voice = koreanVoice;
+        console.log('선택된 음성:', koreanVoice.name);
       }
 
       utterance.lang = 'ko-KR';
-      utterance.rate = playbackRate;
-      utterance.pitch = 1;
-      utterance.volume = 1;
+      utterance.rate = Math.max(0.7, Math.min(1.2, playbackRate)); // 속도 제한
+      utterance.pitch = 1.1; // 약간 높은 톤으로 더 친근하게
+      utterance.volume = 0.9; // 약간 낮은 볼륨으로 부드럽게
 
       utterance.onstart = () => {
         setIsPlaying(true);
         setCurrentScript(text);
+        console.log('음성 재생 시작 - 자연스러운 한국어 음성');
       };
 
       utterance.onend = () => {
         setIsPlaying(false);
         setCurrentScript('');
+        console.log('음성 재생 완료');
       };
 
       utterance.onerror = (event) => {
-        console.error('Speech synthesis error:', event);
+        console.error('음성 재생 오류:', event);
         setIsPlaying(false);
         setCurrentScript('');
+        alert('음성 재생 중 오류가 발생했습니다. 다시 시도해주세요.');
+      };
+
+      // 음성 품질 향상을 위한 추가 설정
+      utterance.onpause = () => {
+        console.log('음성 일시정지');
+      };
+
+      utterance.onresume = () => {
+        console.log('음성 재생 재개');
       };
 
       speechSynthesisRef.current = utterance;
-      window.speechSynthesis.speak(utterance);
+      
+      // 음성 재생 전 잠시 대기 (브라우저 호환성 및 음성 품질 향상)
+      setTimeout(() => {
+        window.speechSynthesis.speak(utterance);
+      }, 150);
     } else {
       alert('죄송합니다. 이 브라우저는 음성 기능을 지원하지 않습니다.');
     }
@@ -183,12 +243,13 @@ const AudioSummary: React.FC<AudioSummaryProps> = ({ fundData }) => {
           <select 
             value={playbackRate} 
             onChange={(e) => changePlaybackRate(Number(e.target.value))}
-            className="enhanced-input py-2 px-3 text-sm min-w-[80px]"
+            className="enhanced-input py-2 px-3 text-sm min-w-[90px]"
           >
-            <option value={0.8}>0.8x</option>
-            <option value={1.0}>1.0x</option>
-            <option value={1.2}>1.2x</option>
-            <option value={1.4}>1.4x</option>
+            <option value={0.7}>느리게</option>
+            <option value={0.85}>조금 느리게</option>
+            <option value={1.0}>보통</option>
+            <option value={1.15}>조금 빠르게</option>
+            <option value={1.2}>빠르게</option>
           </select>
         </div>
       </div>

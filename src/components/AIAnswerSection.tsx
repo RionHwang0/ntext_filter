@@ -15,48 +15,74 @@ const AIAnswerSection: React.FC<AIAnswerSectionProps> = ({ answers }) => {
   if (answers.length === 0) return null;
 
   return (
-    <div className="mt-12 border-t pt-8">
+    <div className="mt-16 border-t border-gray-200 pt-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-toss-black mb-2">AI 상담 내역</h2>
-          <p className="text-toss-gray">펀드에 대해 문의하신 내용과 AI의 답변입니다.</p>
+        <div className="enhanced-card shadow-elegant-hover mb-10">
+          <div className="flex items-center mb-6">
+            <div className="icon-enhanced bg-gradient-to-r from-purple-500 to-purple-600 w-14 h-14 mr-4">
+              <i className="fas fa-robot text-white text-xl"></i>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold gradient-text mb-2">AI 상담 내역</h2>
+              <p className="text-gray-600 text-lg">펀드에 대해 문의하신 내용과 AI의 답변입니다.</p>
+            </div>
+            <div className="ml-auto status-positive">
+              <i className="fas fa-comments mr-1"></i>
+              {answers.length}개 대화
+            </div>
+          </div>
         </div>
         
-        <div className="space-y-6">
-          {answers.map((item) => (
-            <div key={item.id} className="bg-white rounded-lg shadow-sm border p-6">
-              <div className="mb-4">
-                <div className="flex items-start space-x-3">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 rounded-full bg-toss-blue-light text-toss-blue flex items-center justify-center">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
+        <div className="space-y-8">
+          {answers.map((item, index) => (
+            <div key={item.id} className="enhanced-card shadow-elegant-hover border-l-4 border-blue-500">
+              <div className="mb-6">
+                <div className="flex items-start space-x-4">
+                  <div className="icon-enhanced bg-gradient-to-r from-green-500 to-green-600 w-10 h-10 mt-1">
+                    <i className="fas fa-user text-white text-sm"></i>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm text-toss-gray mb-1">질문</p>
-                    <p className="text-toss-black font-medium">{item.question}</p>
-                  </div>
-                  <div className="text-xs text-toss-gray">
-                    {item.timestamp.toLocaleDateString()} {item.timestamp.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center">
+                        <span className="status-positive text-sm mr-3">
+                          <i className="fas fa-question-circle mr-1"></i>
+                          질문 #{index + 1}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {item.timestamp.toLocaleDateString('ko-KR', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4 border border-blue-100">
+                      <p className="text-gray-800 font-medium leading-relaxed">{item.question}</p>
+                    </div>
                   </div>
                 </div>
               </div>
               
-              <div className="border-l-4 border-toss-blue bg-toss-blue-light bg-opacity-10 pl-4 py-3">
-                <div className="flex items-start space-x-3">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 rounded-full bg-toss-blue text-white flex items-center justify-center">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                      </svg>
-                    </div>
+              <div className="bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 rounded-xl p-6 border border-purple-100">
+                <div className="flex items-start space-x-4">
+                  <div className="icon-enhanced bg-gradient-to-r from-purple-500 to-blue-600 w-10 h-10 mt-1 floating-element">
+                    <i className="fas fa-brain text-white text-sm"></i>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm text-toss-blue font-medium mb-2">AI 답변</p>
-                    <div className="text-toss-black whitespace-pre-line leading-relaxed">
-                      {item.answer}
+                    <div className="flex items-center mb-3">
+                      <h4 className="text-lg font-bold text-gray-800 mr-2">AI 답변</h4>
+                      <div className="status-positive text-xs">
+                        <i className="fas fa-magic mr-1"></i>
+                        AI 생성
+                      </div>
+                    </div>
+                    <div className="prose prose-blue max-w-none">
+                      <div className="text-gray-700 whitespace-pre-line leading-relaxed">
+                        {item.answer}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -65,14 +91,28 @@ const AIAnswerSection: React.FC<AIAnswerSectionProps> = ({ answers }) => {
           ))}
         </div>
         
-        <div className="mt-8 p-4 bg-toss-gray-light rounded-lg">
-          <div className="flex items-center space-x-2">
-            <svg className="w-5 h-5 text-toss-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <p className="text-sm text-toss-gray-dark">
-              <strong>참고:</strong> AI 답변은 참고용으로만 활용하시고, 투자 결정 시에는 반드시 투자설명서를 확인하시거나 전문가와 상담하시기 바랍니다.
-            </p>
+        <div className="mt-12 glass-effect p-6 rounded-xl border border-orange-200">
+          <div className="flex items-start space-x-4">
+            <div className="icon-enhanced bg-gradient-to-r from-orange-500 to-red-500 w-12 h-12">
+              <i className="fas fa-exclamation-triangle text-white"></i>
+            </div>
+            <div className="flex-1">
+              <h4 className="text-lg font-bold text-gray-800 mb-2 flex items-center">
+                <i className="fas fa-info-circle mr-2 text-orange-500"></i>
+                투자 주의사항
+              </h4>
+              <div className="bg-white bg-opacity-70 rounded-lg p-4">
+                <p className="text-gray-700 leading-relaxed">
+                  <strong className="text-orange-600">중요:</strong> AI 답변은 참고용으로만 활용하시고, 
+                  투자 결정 시에는 반드시 <strong>투자설명서를 확인</strong>하시거나 
+                  <strong>전문가와 상담</strong>하시기 바랍니다.
+                </p>
+                <div className="flex items-center mt-3 text-sm text-gray-600">
+                  <i className="fas fa-shield-check mr-2 text-green-500"></i>
+                  <span>신중한 투자 결정을 위해 충분한 정보 수집을 권장합니다</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
