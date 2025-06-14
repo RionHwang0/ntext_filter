@@ -1,18 +1,5 @@
 import mammoth from 'mammoth';
-// 브라우저 환경에서는 import 대신 동적으로 로드
-// import pdfParse from 'pdf-parse';
-let pdfParse: any = null;
-
-// PDF-parse에 대한 타입 선언
-interface PdfParseResult {
-  text: string;
-  numpages: number;
-  info: any;
-  metadata: any;
-  version: string;
-}
-
-type PdfParseFunction = (buffer: Uint8Array) => Promise<PdfParseResult>;
+// PDF 파일 처리는 서버 사이드에서만 가능하므로 현재는 더미 데이터를 사용합니다
 
 export interface ProcessedDocument {
   title: string;
@@ -81,40 +68,21 @@ export const processFile = async (file: File): Promise<ProcessedDocument> => {
 };
 
 const processPdf = async (file: File): Promise<ProcessedDocument> => {
-  try {
-    const arrayBuffer = await file.arrayBuffer();
-    const pdfData = new Uint8Array(arrayBuffer);
-    
-    if (!pdfParse) {
-      // 동적으로 pdf-parse 모듈 로드
-      pdfParse = (await import('pdf-parse')).default;
-    }
-    
-    const pdf = await pdfParse(pdfData);
-    const text = pdf.text;
-    const title = file.name.replace('.pdf', '');
-    
-    // 텍스트를 단락으로 분리
-    const paragraphs = text.split(/\n\s*\n/).filter((p: string) => p.trim().length > 0);
-    
-    // 간단한 섹션 추출 로직 (제목으로 보이는 라인 기준)
-    const sections = extractSections(paragraphs);
-
-    return {
-      title,
-      text,
-      sections,
-      paragraphs
-    };
-  } catch (error) {
-    console.error('PDF 처리 중 오류:', error);
-    return {
-      title: file.name.replace('.pdf', ''),
-      text: '파일을 처리할 수 없습니다.',
-      sections: [],
-      paragraphs: ['PDF 파일을 처리하는 중 오류가 발생했습니다.']
-    };
-  }
+  // PDF 처리는 현재 지원하지 않고 더미 데이터를 반환합니다
+  const title = file.name.replace('.pdf', '');
+  
+  return {
+    title,
+    text: '샘플 PDF 텍스트입니다. 실제 PDF 파일 처리는 서버 사이드에서만 지원됩니다.',
+    sections: [
+      {
+        heading: '섹션 1',
+        content: 'PDF 파일의 샘플 내용입니다.',
+        level: 1
+      }
+    ],
+    paragraphs: ['PDF 파일의 샘플 내용입니다.']
+  };
 };
 
 const processWord = async (file: File): Promise<ProcessedDocument> => {
