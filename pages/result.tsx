@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import HashtagSection from '../components/HashtagSection';
-import FundOverview from '../components/FundOverview';
-import InvestmentStrategy from '../components/InvestmentStrategy';
-import ReturnRates from '../components/ReturnRates';
-import InvestmentCosts from '../components/InvestmentCosts';
-import InvestmentRisks from '../components/InvestmentRisks';
-import FundManagers from '../components/FundManagers';
-import RedemptionProcedure from '../components/RedemptionProcedure';
-import TaxationGuide from '../components/TaxationGuide';
-import ReferenceLinks from '../components/ReferenceLinks';
-import ProductComparison from '../components/ProductComparison';
+import HashtagSection from '../src/components/HashtagSection';
+import FundOverview from '../src/components/FundOverview';
+import InvestmentStrategy from '../src/components/InvestmentStrategy';
+import ReturnRates from '../src/components/ReturnRates';
+import InvestmentCosts from '../src/components/InvestmentCosts';
+import InvestmentRisks from '../src/components/InvestmentRisks';
+import FundManagers from '../src/components/FundManagers';
+import RedemptionProcedure from '../src/components/RedemptionProcedure';
+import TaxationGuide from '../src/components/TaxationGuide';
+import ReferenceLinks from '../src/components/ReferenceLinks';
+import ProductComparison from '../src/components/ProductComparison';
 import dynamic from 'next/dynamic';
-import { ProcessedDocument } from '../utils/fileProcessor';
+import { ProcessedDocument } from '../src/utils/fileProcessor';
 
 // 다이나믹 임포트로 SimpleAssetChart 로드
-const SimpleAssetChart = dynamic(() => import('../components/SimpleAssetChart'), { 
+const SimpleAssetChart = dynamic(() => import('../src/components/SimpleAssetChart'), { 
   ssr: false,
   loading: () => <div className="h-[400px] flex items-center justify-center">차트 로딩 중...</div>
 });
