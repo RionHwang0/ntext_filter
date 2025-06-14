@@ -12,6 +12,9 @@ import RedemptionProcedure from '../components/RedemptionProcedure';
 import TaxationGuide from '../components/TaxationGuide';
 import ReferenceLinks from '../components/ReferenceLinks';
 import ProductComparison from '../components/ProductComparison';
+import ChatBot from '../components/ChatBot';
+import AIAnswerSection from '../components/AIAnswerSection';
+import CategoryTabs from '../components/CategoryTabs';
 import dynamic from 'next/dynamic';
 import { ProcessedDocument } from '../utils/fileProcessor';
 
@@ -20,6 +23,13 @@ const SimpleAssetChart = dynamic(() => import('../components/SimpleAssetChart'),
   ssr: false,
   loading: () => <div className="h-[400px] flex items-center justify-center">차트 로딩 중...</div>
 });
+
+interface AIAnswer {
+  id: string;
+  question: string;
+  answer: string;
+  timestamp: Date;
+}
 
 const generateHashtags = (doc: ProcessedDocument) => {
   // 문서의 내용을 기반으로 해시태그 생성
@@ -145,7 +155,8 @@ const ResultPage: React.FC = () => {
   const [document, setDocument] = useState<ProcessedDocument | null>(null);
   const [hashtags, setHashtags] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isDetailMode, setIsDetailMode] = useState(false);
+  const [aiAnswers, setAiAnswers] = useState<AIAnswer[]>([]);
+  const [currentQuestion, setCurrentQuestion] = useState<string>('');
 
   // 펀드 개요 데이터
   const fundOverviewData = {
@@ -181,6 +192,23 @@ const ResultPage: React.FC = () => {
     { name: '양찬규', position: '책임운용역', amount: '5,266억원', performance: '32.74%' },
     { name: '전형래', position: '부책임운용역', amount: '2,045억원', performance: '35.11%' },
   ];
+
+  const handleNewAnswer = (answer: string) => {
+    if (currentQuestion) {
+      const newAnswer: AIAnswer = {
+        id: Date.now().toString(),
+        question: currentQuestion,
+        answer: answer,
+        timestamp: new Date(),
+      };
+      setAiAnswers(prev => [...prev, newAnswer]);
+      setCurrentQuestion('');
+    }
+  };
+
+  const handleNewQuestion = (question: string) => {
+    setCurrentQuestion(question);
+  };
 
   useEffect(() => {
     // 로컬 스토리지에서 처리된 문서 데이터 가져오기
@@ -236,16 +264,6 @@ const ResultPage: React.FC = () => {
               </button>
             </div>
             <div className="flex items-center gap-4">
-              <button
-                onClick={() => setIsDetailMode(!isDetailMode)}
-                className={`px-4 py-2 rounded-full transition-colors ${
-                  isDetailMode 
-                    ? 'bg-toss-blue text-white' 
-                    : 'bg-gray-200 text-gray-700'
-                }`}
-              >
-                {isDetailMode ? '간단히 보기' : '자세히 보기'}
-              </button>
               <div className="text-toss-gray">가독성 향상 서비스</div>
             </div>
           </div>
@@ -263,60 +281,18 @@ const ResultPage: React.FC = () => {
         {/* 해시태그 섹션 */}
         <HashtagSection tags={hashtags} />
 
-        {/* 간단 모드일 때 */}
-        {!isDetailMode ? (
-          <div className="grid grid-cols-1 gap-6">
-            <div className="bg-white rounded-lg shadow p-6">
-              <FundOverview fund={fundOverviewData} />
-            </div>
-            <div className="bg-white rounded-lg shadow p-6">
-              <ReturnRates returnData={returnRateData} benchmarkReturn={benchmarkReturn} />
-            </div>
-            <div className="bg-white rounded-lg shadow p-6">
-              <SimpleAssetChart />
-            </div>
-          </div>
-        ) : (
-          // 자세히 모드일 때 - 기존 컴포넌트들
-          <>
-            <div className="grid grid-cols-1 gap-6 mb-6">
-              <div className="bg-white rounded-lg shadow p-6">
-                <FundOverview fund={fundOverviewData} />
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <InvestmentStrategy />
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <ReturnRates returnData={returnRateData} benchmarkReturn={benchmarkReturn} />
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <SimpleAssetChart />
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <ProductComparison />
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <InvestmentCosts costs={costData} />
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <InvestmentRisks />
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <FundManagers managers={managerData} />
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <RedemptionProcedure />
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <TaxationGuide />
-              </div>
-              <div className="bg-white rounded-lg shadow p-6">
-                <ReferenceLinks />
-              </div>
-            </div>
-          </>
-        )}
+        {/* 카테고리별 탭 섹션 */}
+        <CategoryTabs 
+          fundOverviewData={fundOverviewData}
+          returnRateData={returnRateData}
+          benchmarkReturn={benchmarkReturn}
+          costData={costData}
+          managerData={managerData}
+        />
       </main>
+
+      {/* AI 답변 섹션 */}
+      <AIAnswerSection answers={aiAnswers} />
 
       <footer className="bg-white border-t mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -325,6 +301,9 @@ const ResultPage: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* 채팅봇 */}
+      <ChatBot onNewAnswer={handleNewAnswer} onNewQuestion={handleNewQuestion} />
     </div>
   );
 };
