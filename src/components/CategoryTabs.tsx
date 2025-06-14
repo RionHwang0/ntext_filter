@@ -13,7 +13,12 @@ import dynamic from 'next/dynamic';
 
 const SimpleAssetChart = dynamic(() => import('./SimpleAssetChart'), { 
   ssr: false,
-  loading: () => <div className="h-[400px] flex items-center justify-center">차트 로딩 중...</div>
+  loading: () => (
+    <div className="h-[400px] flex items-center justify-center">
+      <div className="loading-spinner"></div>
+      <span className="ml-3 text-gray-500">차트 로딩 중...</span>
+    </div>
+  )
 });
 
 interface CategoryTabsProps {
@@ -22,6 +27,7 @@ interface CategoryTabsProps {
   benchmarkReturn: number;
   costData: any[];
   managerData: any[];
+  audioSummaryComponent?: React.ReactNode;
 }
 
 type TabType = 'summary' | 'profit' | 'risk' | 'info';
@@ -31,7 +37,8 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   returnRateData,
   benchmarkReturn,
   costData,
-  managerData
+  managerData,
+  audioSummaryComponent
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('summary');
 
@@ -39,38 +46,30 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     {
       id: 'summary' as TabType,
       name: '핵심 요약',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      ),
+      icon: <i className="fas fa-rocket"></i>,
+      description: '한눈에 보는 핵심 정보',
+      color: 'blue'
     },
     {
       id: 'profit' as TabType,
       name: '수익 구조',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-      ),
+      icon: <i className="fas fa-chart-line"></i>,
+      description: '수익률 및 투자 전략',
+      color: 'green'
     },
     {
       id: 'risk' as TabType,
       name: '투자 위험',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-        </svg>
-      ),
+      icon: <i className="fas fa-exclamation-triangle"></i>,
+      description: '위험도 및 비용 정보',
+      color: 'red'
     },
     {
       id: 'info' as TabType,
       name: '기타 정보',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
+      icon: <i className="fas fa-info-circle"></i>,
+      description: '운용사 및 절차 안내',
+      color: 'purple'
     },
   ];
 
@@ -78,80 +77,117 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     switch (activeTab) {
       case 'summary':
         return (
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow p-6">
+          <div className="space-y-8 reveal-up visible">
+            <div className="enhanced-card shadow-elegant-hover">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4">
+                  <i className="fas fa-building text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold gradient-text">펀드 개요</h2>
+              </div>
               <FundOverview fund={fundOverviewData} />
             </div>
             
             {/* 핵심 요약 정보 */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-bold text-toss-black mb-4">핵심 포인트</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-toss-blue-light p-4 rounded-lg">
-                  <div className="flex items-center mb-2">
-                    <div className="w-8 h-8 rounded-full bg-toss-blue text-white flex items-center justify-center mr-3">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                      </svg>
+            <div className="enhanced-card shadow-elegant-hover">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4">
+                  <i className="fas fa-star text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold gradient-text">핵심 포인트</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="interactive-list-item bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+                  <div className="flex items-center mb-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white flex items-center justify-center mr-4 shadow-lg">
+                      <i className="fas fa-chart-line text-lg"></i>
                     </div>
-                    <h3 className="font-medium text-toss-blue">수익률</h3>
+                    <h3 className="font-bold text-blue-800">수익률</h3>
                   </div>
-                  <p className="text-sm text-toss-gray-dark">최근 1년 약 35-36% 수익률 달성</p>
+                  <p className="text-sm text-blue-700 leading-relaxed">최근 1년 약 35-36% 수익률 달성으로 우수한 성과를 보여주고 있습니다</p>
                 </div>
                 
-                <div className="bg-green-50 p-4 rounded-lg">
-                  <div className="flex items-center mb-2">
-                    <div className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center mr-3">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                <div className="interactive-list-item bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+                  <div className="flex items-center mb-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white flex items-center justify-center mr-4 shadow-lg">
+                      <i className="fas fa-shield-alt text-lg"></i>
                     </div>
-                    <h3 className="font-medium text-green-600">안정성</h3>
+                    <h3 className="font-bold text-green-800">안정성</h3>
                   </div>
-                  <p className="text-sm text-gray-600">500개 대기업 분산투자로 위험 완화</p>
+                  <p className="text-sm text-green-700 leading-relaxed">500개 대기업 분산투자로 위험을 효과적으로 완화합니다</p>
                 </div>
                 
-                <div className="bg-orange-50 p-4 rounded-lg">
-                  <div className="flex items-center mb-2">
-                    <div className="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center mr-3">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                      </svg>
+                <div className="interactive-list-item bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
+                  <div className="flex items-center mb-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center justify-center mr-4 shadow-lg">
+                      <i className="fas fa-coins text-lg"></i>
                     </div>
-                    <h3 className="font-medium text-orange-600">비용</h3>
+                    <h3 className="font-bold text-orange-800">비용</h3>
                   </div>
-                  <p className="text-sm text-gray-600">온라인 클래스 총비용 0.81%</p>
+                  <p className="text-sm text-orange-700 leading-relaxed">온라인 클래스 총비용 0.81%로 합리적인 수준을 유지합니다</p>
                 </div>
                 
-                <div className="bg-purple-50 p-4 rounded-lg">
-                  <div className="flex items-center mb-2">
-                    <div className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center mr-3">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                      </svg>
+                <div className="interactive-list-item bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+                  <div className="flex items-center mb-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 text-white flex items-center justify-center mr-4 shadow-lg">
+                      <i className="fas fa-thermometer-half text-lg"></i>
                     </div>
-                    <h3 className="font-medium text-purple-600">위험등급</h3>
+                    <h3 className="font-bold text-purple-800">위험등급</h3>
                   </div>
-                  <p className="text-sm text-gray-600">2등급 (중위험) 투자상품</p>
+                  <p className="text-sm text-purple-700 leading-relaxed">2등급 (중위험) 투자상품으로 분류됩니다</p>
                 </div>
               </div>
             </div>
+            
+            {/* 음성 요약 섹션 */}
+            {audioSummaryComponent && (
+              <div className="enhanced-card shadow-elegant-hover">
+                {audioSummaryComponent}
+              </div>
+            )}
           </div>
         );
 
       case 'profit':
         return (
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow p-6">
+          <div className="space-y-8 reveal-up visible">
+            <div className="enhanced-card shadow-elegant-hover">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4">
+                  <i className="fas fa-chart-line text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold gradient-text">수익률 분석</h2>
+              </div>
               <ReturnRates returnData={returnRateData} benchmarkReturn={benchmarkReturn} />
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
+            
+            <div className="enhanced-card shadow-elegant-hover">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4">
+                  <i className="fas fa-chart-area text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold gradient-text">자산 구성 차트</h2>
+              </div>
               <SimpleAssetChart />
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
+            
+            <div className="enhanced-card shadow-elegant-hover">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4">
+                  <i className="fas fa-lightbulb text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold gradient-text">투자 전략</h2>
+              </div>
               <InvestmentStrategy />
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
+            
+            <div className="enhanced-card shadow-elegant-hover">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4">
+                  <i className="fas fa-balance-scale text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold gradient-text">상품 비교</h2>
+              </div>
               <ProductComparison />
             </div>
           </div>
@@ -159,33 +195,74 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
 
       case 'risk':
         return (
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow p-6">
+          <div className="space-y-8 reveal-up visible">
+            <div className="enhanced-card shadow-elegant-hover">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4 bg-gradient-to-r from-red-500 to-red-600">
+                  <i className="fas fa-exclamation-triangle text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold gradient-text">투자 위험</h2>
+              </div>
               <InvestmentRisks />
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
+            
+            <div className="enhanced-card shadow-elegant-hover">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4 bg-gradient-to-r from-orange-500 to-orange-600">
+                  <i className="fas fa-calculator text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold gradient-text">투자 비용</h2>
+              </div>
               <InvestmentCosts costs={costData} />
             </div>
             
             {/* 위험 요약 정보 */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-bold text-toss-black mb-4">투자 위험 요약</h2>
-              <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+            <div className="enhanced-card shadow-elegant-hover bg-gradient-to-br from-red-50 to-orange-50">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4 bg-gradient-to-r from-red-600 to-red-700">
+                  <i className="fas fa-shield-alt text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold text-red-700">투자 위험 요약</h2>
+              </div>
+              
+              <div className="bg-white border-l-4 border-red-500 p-6 rounded-lg shadow-inner">
                 <div className="flex items-start">
-                  <div className="flex-shrink-0">
-                    <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
+                  <div className="flex-shrink-0 floating-element">
+                    <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                      <i className="fas fa-exclamation-triangle text-red-600 text-lg"></i>
+                    </div>
                   </div>
-                  <div className="ml-3">
-                    <h3 className="text-sm font-medium text-red-800">주요 위험사항</h3>
-                    <div className="mt-2 text-sm text-red-700">
-                      <ul className="space-y-1">
-                        <li>• 원금 손실 가능성 (예금자보호 미적용)</li>
-                        <li>• 미국 주식시장 변동성에 따른 위험</li>
-                        <li>• 환율 변동 위험 (약 90% 환헤지)</li>
-                        <li>• 파생상품 투자에 따른 추가 위험</li>
-                      </ul>
+                  <div className="ml-4 flex-1">
+                    <h3 className="text-lg font-bold text-red-800 mb-4">주요 위험사항</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-3">
+                        <div className="flex items-start space-x-3">
+                          <div className="w-6 h-6 rounded-full bg-red-200 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <i className="fas fa-times text-red-600 text-xs"></i>
+                          </div>
+                          <p className="text-sm text-red-700">원금 손실 가능성 (예금자보호 미적용)</p>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="w-6 h-6 rounded-full bg-red-200 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <i className="fas fa-times text-red-600 text-xs"></i>
+                          </div>
+                          <p className="text-sm text-red-700">미국 주식시장 변동성에 따른 위험</p>
+                        </div>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex items-start space-x-3">
+                          <div className="w-6 h-6 rounded-full bg-red-200 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <i className="fas fa-times text-red-600 text-xs"></i>
+                          </div>
+                          <p className="text-sm text-red-700">환율 변동 위험 (약 90% 환헤지)</p>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="w-6 h-6 rounded-full bg-red-200 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <i className="fas fa-times text-red-600 text-xs"></i>
+                          </div>
+                          <p className="text-sm text-red-700">파생상품 투자에 따른 추가 위험</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -196,17 +273,44 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
 
       case 'info':
         return (
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow p-6">
+          <div className="space-y-8 reveal-up visible">
+            <div className="enhanced-card shadow-elegant-hover">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4 bg-gradient-to-r from-purple-500 to-purple-600">
+                  <i className="fas fa-users text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold gradient-text">펀드 매니저</h2>
+              </div>
               <FundManagers managers={managerData} />
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
+            
+            <div className="enhanced-card shadow-elegant-hover">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4 bg-gradient-to-r from-indigo-500 to-indigo-600">
+                  <i className="fas fa-hand-holding-usd text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold gradient-text">환매 절차</h2>
+              </div>
               <RedemptionProcedure />
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
+            
+            <div className="enhanced-card shadow-elegant-hover">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4 bg-gradient-to-r from-green-500 to-green-600">
+                  <i className="fas fa-file-invoice text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold gradient-text">세금 안내</h2>
+              </div>
               <TaxationGuide />
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
+            
+            <div className="enhanced-card shadow-elegant-hover">
+              <div className="flex items-center mb-6">
+                <div className="icon-enhanced mr-4 bg-gradient-to-r from-blue-500 to-blue-600">
+                  <i className="fas fa-link text-lg"></i>
+                </div>
+                <h2 className="text-2xl font-bold gradient-text">관련 링크</h2>
+              </div>
               <ReferenceLinks />
             </div>
           </div>
@@ -218,28 +322,58 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
   };
 
   return (
-    <div className="mt-8">
-      {/* 탭 네비게이션 */}
-      <div className="flex flex-wrap gap-2 mb-6">
+    <div className="mb-12">
+      {/* Enhanced Tab Navigation */}
+      <div className="flex flex-wrap justify-center gap-4 mb-10">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center px-6 py-3 rounded-full font-medium transition-all duration-200 ${
-              activeTab === tab.id
-                ? 'bg-toss-blue text-white shadow-lg'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            className={`enhanced-tab min-w-[200px] ${
+              activeTab === tab.id ? 'active' : ''
             }`}
           >
-            <span className="mr-2">{tab.icon}</span>
-            {tab.name}
+            <div className="flex items-center gap-3">
+              <div className={`text-xl transition-all duration-300 ${
+                activeTab === tab.id ? 'text-white' : 'text-blue-500'
+              }`}>
+                {tab.icon}
+              </div>
+              <div className="flex flex-col items-start">
+                <span className="font-bold text-base">{tab.name}</span>
+                <span className={`text-xs transition-all duration-300 ${
+                  activeTab === tab.id ? 'text-blue-100' : 'text-gray-500'
+                }`}>
+                  {tab.description}
+                </span>
+              </div>
+            </div>
+            
+            {/* Active indicator */}
+            {activeTab === tab.id && (
+              <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2">
+                <div className="w-3 h-3 bg-white rounded-full shadow-lg floating-element"></div>
+              </div>
+            )}
           </button>
         ))}
       </div>
 
-      {/* 탭 내용 */}
-      <div className="min-h-[400px]">
+      {/* Tab Content */}
+      <div className="relative">
         {renderTabContent()}
+      </div>
+      
+      {/* Decorative Elements */}
+      <div className="fixed top-20 right-10 opacity-10 pointer-events-none">
+        <div className="floating-delayed">
+          <i className="fas fa-chart-line text-6xl text-blue-300"></i>
+        </div>
+      </div>
+      <div className="fixed bottom-20 left-10 opacity-10 pointer-events-none">
+        <div className="floating-element">
+          <i className="fas fa-coins text-5xl text-green-300"></i>
+        </div>
       </div>
     </div>
   );

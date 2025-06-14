@@ -15,6 +15,7 @@ import ProductComparison from '../src/components/ProductComparison';
 import ChatBot from '../src/components/ChatBot';
 import AIAnswerSection from '../src/components/AIAnswerSection';
 import CategoryTabs from '../src/components/CategoryTabs';
+import AudioSummary from '../src/components/AudioSummary';
 import dynamic from 'next/dynamic';
 import { ProcessedDocument } from '../src/utils/fileProcessor';
 
@@ -232,50 +233,97 @@ const ResultPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="flex flex-col items-center">
-          <div className="w-12 h-12 border-4 border-toss-blue rounded-full border-t-transparent animate-spin mb-4"></div>
-          <p className="text-toss-gray-dark">문서 분석 결과를 불러오는 중...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
+        <div className="text-center">
+          <div className="enhanced-card shadow-elegant p-12">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 floating-element">
+              <div className="loading-spinner w-8 h-8"></div>
+            </div>
+            <h2 className="text-xl font-bold gradient-text mb-3">문서 분석 중</h2>
+            <p className="text-gray-600 flex items-center justify-center">
+              <i className="fas fa-magic mr-2 text-blue-500"></i>
+              AI가 펀드 정보를 분석하고 있습니다...
+            </p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
       <Head>
         <title>미국 대표 500개 기업에 한 번에 투자하세요. - 텍스트 필터</title>
         <meta name="description" content="텍스트 필터로 생성된 가독성 높은 웹페이지" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="bg-white shadow-sm sticky top-0 z-10">
+      <header className="glass-effect sticky top-0 z-10 shadow-elegant border-b border-white border-opacity-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
               <button 
-                className="flex items-center text-toss-blue"
+                className="flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-200"
                 onClick={() => router.push('/')}
               >
-                <svg className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2 hover:bg-blue-200 transition-colors">
+                  <i className="fas fa-arrow-left text-sm"></i>
+                </div>
                 <span>홈으로</span>
               </button>
             </div>
             <div className="flex items-center gap-4">
-              <div className="text-toss-gray">가독성 향상 서비스</div>
+              <div className="status-positive">
+                <i className="fas fa-magic mr-1"></i>
+                가독성 향상 서비스
+              </div>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-toss-black mb-2">미국 대표 500개 기업에 한 번에 투자하세요.</h1>
-          <p className="text-toss-gray">
-            애플부터 아마존까지, S&P500 지수를 따라가는 글로벌 분산투자 펀드입니다.
-          </p>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {/* 향상된 페이지 헤더 */}
+        <div className="enhanced-card shadow-elegant-hover mb-10">
+          <div className="flex items-center mb-6">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-6 floating-element">
+              <i className="fas fa-chart-pie text-white text-2xl"></i>
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold gradient-text mb-2">
+                미국 대표 500개 기업에 한 번에 투자하세요.
+              </h1>
+              <p className="text-gray-600 text-lg leading-relaxed flex items-center">
+                <i className="fas fa-globe-americas mr-2 text-blue-500"></i>
+                애플부터 아마존까지, S&P500 지수를 따라가는 글로벌 분산투자 펀드입니다.
+              </p>
+            </div>
+          </div>
+          
+          {/* 펀드 하이라이트 */}
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="text-center">
+              <div className="icon-enhanced bg-gradient-to-r from-green-500 to-green-600 w-12 h-12 mx-auto mb-3">
+                <i className="fas fa-chart-line text-white"></i>
+              </div>
+              <h3 className="font-bold text-gray-800 mb-1">최근 1년 수익률</h3>
+              <p className="text-2xl font-bold text-green-600">36.32%</p>
+            </div>
+            <div className="text-center">
+              <div className="icon-enhanced bg-gradient-to-r from-blue-500 to-blue-600 w-12 h-12 mx-auto mb-3">
+                <i className="fas fa-shield-alt text-white"></i>
+              </div>
+              <h3 className="font-bold text-gray-800 mb-1">위험 등급</h3>
+              <p className="text-xl font-bold text-blue-600">2등급 (중위험)</p>
+            </div>
+            <div className="text-center">
+              <div className="icon-enhanced bg-gradient-to-r from-purple-500 to-purple-600 w-12 h-12 mx-auto mb-3">
+                <i className="fas fa-percentage text-white"></i>
+              </div>
+              <h3 className="font-bold text-gray-800 mb-1">온라인 수수료</h3>
+              <p className="text-xl font-bold text-purple-600">0.81%</p>
+            </div>
+          </div>
         </div>
 
         {/* 해시태그 섹션 */}
@@ -288,16 +336,49 @@ const ResultPage: React.FC = () => {
           benchmarkReturn={benchmarkReturn}
           costData={costData}
           managerData={managerData}
+          audioSummaryComponent={
+            <AudioSummary 
+              fundData={{
+                name: fundOverviewData.name,
+                code: fundOverviewData.code,
+                manager: fundOverviewData.manager,
+                returnRates: returnRateData,
+                riskLevel: fundOverviewData.riskLevel,
+                costs: costData
+              }}
+            />
+          }
         />
       </main>
 
       {/* AI 답변 섹션 */}
       <AIAnswerSection answers={aiAnswers} />
 
-      <footer className="bg-white border-t mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center text-sm text-toss-gray">
-            <p>© 2025 텍스트 필터. 모든 권리 보유.</p>
+      <footer className="glass-effect border-t border-white border-opacity-30 mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center">
+            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 floating-element">
+              <i className="fas fa-filter text-white"></i>
+            </div>
+            <h3 className="text-lg font-bold gradient-text mb-2">텍스트 필터</h3>
+            <p className="text-sm text-gray-600 mb-4">금융 문서의 가독성을 향상시키는 AI 서비스</p>
+            <div className="flex justify-center items-center gap-4 mb-4">
+              <span className="status-positive text-xs">
+                <i className="fas fa-shield-check mr-1"></i>
+                안전한 문서 처리
+              </span>
+              <span className="status-positive text-xs">
+                <i className="fas fa-magic mr-1"></i>
+                AI 기반 분석
+              </span>
+              <span className="status-positive text-xs">
+                <i className="fas fa-mobile-alt mr-1"></i>
+                반응형 디자인
+              </span>
+            </div>
+            <div className="border-t border-gray-200 pt-4">
+              <p className="text-xs text-gray-500">© 2025 텍스트 필터. 모든 권리 보유.</p>
+            </div>
           </div>
         </div>
       </footer>

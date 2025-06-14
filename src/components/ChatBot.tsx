@@ -128,8 +128,6 @@ const ChatBot: React.FC<ChatBotProps> = ({ onNewAnswer, onNewQuestion }) => {
     }
   };
 
-
-
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -139,51 +137,68 @@ const ChatBot: React.FC<ChatBotProps> = ({ onNewAnswer, onNewQuestion }) => {
 
   return (
     <>
-      {/* 채팅 아이콘 */}
+      {/* 향상된 채팅 아이콘 */}
       <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-toss-blue hover:bg-toss-blue-dark text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110"
+          className="w-16 h-16 professional-button rounded-full shadow-2xl relative group"
+          style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)' }}
         >
-          <svg 
-            className="w-6 h-6" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            {isOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            )}
-          </svg>
+          <i className={`fas ${isOpen ? 'fa-times' : 'fa-comment-dots'} text-xl transition-all duration-300`}></i>
+          
+          {/* Pulse animation when closed */}
+          {!isOpen && (
+            <div className="absolute inset-0 rounded-full bg-blue-400 opacity-30 animate-ping"></div>
+          )}
+          
+          {/* Notification badge */}
+          <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+            <i className="fas fa-robot text-white text-xs"></i>
+          </div>
         </button>
       </div>
 
-      {/* 채팅 창 */}
+      {/* 향상된 채팅 창 */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 w-96 bg-white rounded-lg shadow-xl border z-50">
-          <div className="bg-toss-blue text-white p-4 rounded-t-lg">
+        <div className="fixed bottom-24 right-6 w-96 enhanced-card shadow-2xl border-0 z-50 overflow-hidden">
+          {/* Header with gradient */}
+          <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4">
             <div className="flex items-center">
-              <div className="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-3">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
+              <div className="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-3 floating-element">
+                <i className="fas fa-robot text-white"></i>
               </div>
               <div>
-                <h3 className="font-semibold">펀드 상담 AI</h3>
-                <p className="text-sm opacity-90">📋 로컬정보 + 🤖 Claude AI</p>
+                <h3 className="font-bold text-lg">AI 펀드 도우미</h3>
+                <p className="text-sm opacity-90 flex items-center">
+                  <span className="mr-1">📋 로컬정보</span>
+                  <span className="mx-1">+</span>
+                  <span className="ml-1">🤖 Claude AI</span>
+                </p>
               </div>
             </div>
           </div>
           
-          <div className="h-80 overflow-y-auto p-4 space-y-3">
+          {/* Chat messages area */}
+          <div className="h-80 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-gray-50 to-white custom-scrollbar">
             {messages.length === 0 && (
-              <div className="text-center text-gray-500 mt-8">
-                <p>안녕하세요! 👋</p>
-                <p className="text-sm mt-2">펀드에 대해 궁금한 것을 물어보세요.</p>
-                <div className="text-xs mt-3 bg-blue-50 p-2 rounded">
-                  <p className="text-blue-600">📋 웹페이지 정보 + 🤖 Claude AI 활용</p>
+              <div className="text-center mt-8 reveal-up visible">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-blue-100 to-blue-200 rounded-full flex items-center justify-center">
+                  <i className="fas fa-hand-wave text-blue-500 text-2xl floating-element"></i>
+                </div>
+                <h4 className="font-bold text-gray-700 mb-2">안녕하세요!</h4>
+                <p className="text-sm text-gray-500 mb-4">펀드에 대해 궁금한 것을 물어보세요.</p>
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-xl border border-blue-200">
+                  <div className="flex items-center justify-center space-x-2 text-sm">
+                    <div className="flex items-center">
+                      <i className="fas fa-database text-blue-500 mr-1"></i>
+                      <span className="text-blue-600 font-medium">웹페이지 정보</span>
+                    </div>
+                    <span className="text-gray-400">+</span>
+                    <div className="flex items-center">
+                      <i className="fas fa-brain text-purple-500 mr-1"></i>
+                      <span className="text-purple-600 font-medium">Claude AI</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -191,32 +206,45 @@ const ChatBot: React.FC<ChatBotProps> = ({ onNewAnswer, onNewQuestion }) => {
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} mb-4`}
               >
-                <div
-                  className={`max-w-xs px-3 py-2 rounded-lg text-sm ${
-                    message.type === 'user'
-                      ? 'bg-toss-blue text-white'
-                      : 'bg-gray-100 text-gray-800'
-                  }`}
-                >
-                  <p className="whitespace-pre-line">{message.content}</p>
-                  <p className={`text-xs mt-1 ${
-                    message.type === 'user' ? 'text-blue-100' : 'text-gray-500'
+                <div className={`flex items-start space-x-2 max-w-xs ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+                  {/* Avatar */}
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    message.type === 'user' 
+                      ? 'bg-gradient-to-r from-blue-500 to-blue-600' 
+                      : 'bg-gradient-to-r from-gray-100 to-gray-200'
                   }`}>
-                    {message.timestamp.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                  </p>
+                    <i className={`fas ${message.type === 'user' ? 'fa-user' : 'fa-robot'} text-sm ${
+                      message.type === 'user' ? 'text-white' : 'text-gray-600'
+                    }`}></i>
+                  </div>
+                  
+                  {/* Message bubble */}
+                  <div
+                    className={`px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
+                      message.type === 'user'
+                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white'
+                        : 'bg-white text-gray-800 border border-gray-200'
+                    } ${message.type === 'user' ? 'rounded-br-md' : 'rounded-bl-md'}`}
+                  >
+                    {message.content}
+                  </div>
                 </div>
               </div>
             ))}
             
             {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-gray-100 px-3 py-2 rounded-lg">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+              <div className="flex justify-start mb-4">
+                <div className="flex items-start space-x-2 max-w-xs">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 flex items-center justify-center">
+                    <i className="fas fa-robot text-gray-600 text-sm"></i>
+                  </div>
+                  <div className="bg-white text-gray-800 px-4 py-3 rounded-2xl rounded-bl-md shadow-sm border border-gray-200">
+                    <div className="flex items-center space-x-3">
+                      <div className="loading-spinner"></div>
+                      <span className="text-sm">답변을 생성하고 있습니다...</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -225,24 +253,39 @@ const ChatBot: React.FC<ChatBotProps> = ({ onNewAnswer, onNewQuestion }) => {
             <div ref={messagesEndRef} />
           </div>
           
-          <div className="border-t p-4">
-            <div className="flex space-x-2">
+          {/* Enhanced input area */}
+          <div className="p-4 border-t border-gray-200 bg-white">
+            <div className="flex space-x-3">
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="질문을 입력하세요..."
-                className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-toss-blue"
+                placeholder="펀드에 대해 궁금한 점을 입력하세요..."
+                className="enhanced-input flex-1 text-sm"
                 disabled={isLoading}
               />
               <button
                 onClick={handleSendMessage}
-                disabled={!inputValue.trim() || isLoading}
-                className="bg-toss-blue text-white px-4 py-2 rounded-lg text-sm hover:bg-toss-blue-dark disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isLoading || !inputValue.trim()}
+                className="professional-button px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                전송
+                <i className="fas fa-paper-plane text-sm"></i>
               </button>
+            </div>
+            
+            {/* Quick suggestions */}
+            <div className="mt-3 flex flex-wrap gap-2">
+              {['수익률이 어떻게 되나요?', '위험도는?', '비용은 얼마인가요?'].map((suggestion, index) => (
+                <button
+                  key={index}
+                  onClick={() => setInputValue(suggestion)}
+                  className="text-xs px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-600 transition-colors duration-200"
+                  disabled={isLoading}
+                >
+                  {suggestion}
+                </button>
+              ))}
             </div>
           </div>
         </div>
