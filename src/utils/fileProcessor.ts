@@ -3,8 +3,16 @@ import mammoth from 'mammoth';
 // import pdfParse from 'pdf-parse';
 let pdfParse: any = null;
 
-// PDF-parse ubaa8ub4c8uc5d0 ub300ud55c ud0c0uc785 uc120uc5b8
-declare module 'pdf-parse';
+// PDF-parse에 대한 타입 선언
+interface PdfParseResult {
+  text: string;
+  numpages: number;
+  info: any;
+  metadata: any;
+  version: string;
+}
+
+type PdfParseFunction = (buffer: Uint8Array) => Promise<PdfParseResult>;
 
 export interface ProcessedDocument {
   title: string;
