@@ -46,7 +46,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     {
       id: 'summary' as TabType,
       name: '핵심 요약',
-      icon: <i className="fas fa-rocket"></i>,
+      icon: <i className="fas fa-star"></i>,
       description: '한눈에 보는 핵심 정보',
       color: 'blue'
     },
@@ -60,14 +60,14 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
     {
       id: 'risk' as TabType,
       name: '투자 위험',
-      icon: <i className="fas fa-exclamation-triangle"></i>,
+      icon: <i className="fas fa-shield-alt"></i>,
       description: '위험도 및 비용 정보',
       color: 'red'
     },
     {
       id: 'info' as TabType,
       name: '기타 정보',
-      icon: <i className="fas fa-info-circle"></i>,
+      icon: <i className="fas fa-file-alt"></i>,
       description: '운용사 및 절차 안내',
       color: 'purple'
     },
@@ -81,7 +81,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
             <div className="enhanced-card shadow-elegant-hover">
               <div className="flex items-center mb-6">
                 <div className="icon-enhanced mr-4">
-                  <i className="fas fa-building text-lg"></i>
+                  <i className="fas fa-university text-lg"></i>
                 </div>
                 <h2 className="text-2xl font-bold gradient-text">펀드 개요</h2>
               </div>
@@ -92,7 +92,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
             <div className="enhanced-card shadow-elegant-hover">
               <div className="flex items-center mb-6">
                 <div className="icon-enhanced mr-4">
-                  <i className="fas fa-star text-lg"></i>
+                  <i className="fas fa-gem text-lg"></i>
                 </div>
                 <h2 className="text-2xl font-bold gradient-text">핵심 포인트</h2>
               </div>
@@ -130,7 +130,7 @@ const CategoryTabs: React.FC<CategoryTabsProps> = ({
                 <div className="interactive-list-item bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
                   <div className="flex items-center mb-3">
                     <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 text-white flex items-center justify-center mr-4 shadow-lg">
-                      <i className="fas fa-thermometer-half text-lg"></i>
+                      <i className="fas fa-balance-scale text-lg"></i>
                     </div>
                     <h3 className="font-bold text-purple-800">위험등급</h3>
                   </div>

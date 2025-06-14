@@ -42,7 +42,7 @@ export default function Home() {
           <div className="flex justify-between items-center">
             <div className="flex items-center">
               <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-4 floating-element">
-                <i className="fas fa-filter text-white text-xl"></i>
+                <i className="fas fa-file-contract text-white text-xl"></i>
               </div>
               <div>
                 <h1 className="text-2xl font-bold gradient-text">텍스트 필터</h1>
@@ -50,7 +50,7 @@ export default function Home() {
               </div>
             </div>
             <div className="status-positive">
-              <i className="fas fa-magic mr-1"></i>
+              <i className="fas fa-award mr-1"></i>
               가독성 향상 서비스
             </div>
           </div>
@@ -79,21 +79,21 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div className="text-center">
                 <div className="icon-enhanced bg-gradient-to-r from-green-500 to-green-600 w-12 h-12 mx-auto mb-3">
-                  <i className="fas fa-bolt text-white"></i>
+                  <i className="fas fa-tachometer-alt text-white"></i>
                 </div>
                 <h3 className="font-bold text-gray-800 mb-1">빠른 변환</h3>
                 <p className="text-sm text-gray-600">몇 초 만에 변환 완료</p>
               </div>
               <div className="text-center">
                 <div className="icon-enhanced bg-gradient-to-r from-blue-500 to-blue-600 w-12 h-12 mx-auto mb-3">
-                  <i className="fas fa-eye text-white"></i>
+                  <i className="fas fa-search-plus text-white"></i>
                 </div>
                 <h3 className="font-bold text-gray-800 mb-1">가독성 향상</h3>
                 <p className="text-sm text-gray-600">시각적 요소 자동 추가</p>
               </div>
               <div className="text-center">
                 <div className="icon-enhanced bg-gradient-to-r from-purple-500 to-purple-600 w-12 h-12 mx-auto mb-3">
-                  <i className="fas fa-hashtag text-white"></i>
+                  <i className="fas fa-tags text-white"></i>
                 </div>
                 <h3 className="font-bold text-gray-800 mb-1">스마트 태그</h3>
                 <p className="text-sm text-gray-600">AI 기반 키워드 추출</p>
@@ -114,7 +114,7 @@ export default function Home() {
             <div className="enhanced-card shadow-elegant-hover">
               <div className="flex items-start">
                 <div className="icon-enhanced bg-gradient-to-r from-blue-500 to-blue-600 w-14 h-14 mr-6">
-                  <i className="fas fa-chart-bar text-white text-xl"></i>
+                  <i className="fas fa-chart-line text-white text-xl"></i>
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-gray-800 mb-2">시각화 및 도식화</h3>
@@ -133,7 +133,7 @@ export default function Home() {
             <div className="enhanced-card shadow-elegant-hover">
               <div className="flex items-start">
                 <div className="icon-enhanced bg-gradient-to-r from-green-500 to-green-600 w-14 h-14 mr-6">
-                  <i className="fas fa-hashtag text-white text-xl"></i>
+                  <i className="fas fa-tags text-white text-xl"></i>
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-gray-800 mb-2">스마트 해시태그</h3>
@@ -152,7 +152,7 @@ export default function Home() {
             <div className="enhanced-card shadow-elegant-hover">
               <div className="flex items-start">
                 <div className="icon-enhanced bg-gradient-to-r from-purple-500 to-purple-600 w-14 h-14 mr-6">
-                  <i className="fas fa-rocket text-white text-xl"></i>
+                  <i className="fas fa-upload text-white text-xl"></i>
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-gray-800 mb-2">쉽고 빠른 변환</h3>
@@ -175,21 +175,21 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 floating-element">
-              <i className="fas fa-filter text-white"></i>
+              <i className="fas fa-file-contract text-white"></i>
             </div>
             <h3 className="text-lg font-bold gradient-text mb-2">텍스트 필터</h3>
             <p className="text-sm text-gray-600 mb-4">금융 문서의 가독성을 향상시키는 AI 서비스</p>
             <div className="flex justify-center items-center gap-4 mb-4">
               <span className="status-positive text-xs">
-                <i className="fas fa-shield-check mr-1"></i>
+                <i className="fas fa-shield-alt mr-1"></i>
                 안전한 문서 처리
               </span>
               <span className="status-positive text-xs">
-                <i className="fas fa-magic mr-1"></i>
+                <i className="fas fa-brain mr-1"></i>
                 AI 기반 분석
               </span>
               <span className="status-positive text-xs">
-                <i className="fas fa-mobile-alt mr-1"></i>
+                <i className="fas fa-desktop mr-1"></i>
                 반응형 디자인
               </span>
             </div>

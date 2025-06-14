@@ -25,7 +25,7 @@ const HashtagSection: React.FC<HashtagProps> = ({ tags }) => {
       <div className="enhanced-card shadow-elegant-hover mb-8">
         <div className="flex items-center mb-6">
           <div className="icon-enhanced bg-gradient-to-r from-green-500 to-green-600 w-12 h-12 mr-4">
-            <i className="fas fa-hashtag text-white"></i>
+            <i className="fas fa-tags text-white"></i>
           </div>
           <div>
             <h2 className="text-2xl font-bold gradient-text mb-1">핵심 키워드</h2>
@@ -45,7 +45,7 @@ const HashtagSection: React.FC<HashtagProps> = ({ tags }) => {
                   : 'bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 hover:from-blue-100 hover:to-purple-100'
               }`}
             >
-              <i className="fas fa-hashtag mr-1 text-xs"></i>
+              <i className="fas fa-tag mr-1 text-xs"></i>
               {tag.text}
               {activeTag === tag.id && (
                 <i className="fas fa-chevron-up ml-2 text-xs"></i>
@@ -63,7 +63,7 @@ const HashtagSection: React.FC<HashtagProps> = ({ tags }) => {
         <div className="enhanced-card shadow-elegant bg-gradient-to-br from-blue-50 via-white to-purple-50 border-l-4 border-blue-500 animate-slideDown">
           <div className="flex items-start mb-4">
             <div className="icon-enhanced bg-gradient-to-r from-blue-500 to-blue-600 w-10 h-10 mr-4 mt-1">
-              <i className="fas fa-info-circle text-white text-sm"></i>
+              <i className="fas fa-bookmark text-white text-sm"></i>
             </div>
             <div className="flex-1">
               <div className="flex items-center mb-3">
@@ -71,7 +71,7 @@ const HashtagSection: React.FC<HashtagProps> = ({ tags }) => {
                   #{tags.find((tag) => tag.id === activeTag)?.text}
                 </h3>
                 <div className="status-positive text-xs">
-                  <i className="fas fa-lightbulb mr-1"></i>
+                  <i className="fas fa-info-circle mr-1"></i>
                   상세 설명
                 </div>
               </div>

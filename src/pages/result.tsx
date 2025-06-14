@@ -267,14 +267,14 @@ const ResultPage: React.FC = () => {
                 onClick={() => router.push('/')}
               >
                 <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2 hover:bg-blue-200 transition-colors">
-                  <i className="fas fa-arrow-left text-sm"></i>
+                  <i className="fas fa-home text-sm"></i>
                 </div>
                 <span>홈으로</span>
               </button>
             </div>
             <div className="flex items-center gap-4">
               <div className="status-positive">
-                <i className="fas fa-magic mr-1"></i>
+                <i className="fas fa-award mr-1"></i>
                 가독성 향상 서비스
               </div>
             </div>
@@ -287,14 +287,14 @@ const ResultPage: React.FC = () => {
         <div className="enhanced-card shadow-elegant-hover mb-10">
           <div className="flex items-center mb-6">
             <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-6 floating-element">
-              <i className="fas fa-chart-pie text-white text-2xl"></i>
+                              <i className="fas fa-chart-line text-white text-2xl"></i>
             </div>
             <div>
               <h1 className="text-3xl font-bold gradient-text mb-2">
                 미국 대표 500개 기업에 한 번에 투자하세요.
               </h1>
               <p className="text-gray-600 text-lg leading-relaxed flex items-center">
-                <i className="fas fa-globe-americas mr-2 text-blue-500"></i>
+                <i className="fas fa-flag-usa mr-2 text-blue-500"></i>
                 애플부터 아마존까지, S&P500 지수를 따라가는 글로벌 분산투자 펀드입니다.
               </p>
             </div>
@@ -358,21 +358,21 @@ const ResultPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 floating-element">
-              <i className="fas fa-filter text-white"></i>
+              <i className="fas fa-file-contract text-white"></i>
             </div>
             <h3 className="text-lg font-bold gradient-text mb-2">텍스트 필터</h3>
             <p className="text-sm text-gray-600 mb-4">금융 문서의 가독성을 향상시키는 AI 서비스</p>
             <div className="flex justify-center items-center gap-4 mb-4">
               <span className="status-positive text-xs">
-                <i className="fas fa-shield-check mr-1"></i>
+                <i className="fas fa-shield-alt mr-1"></i>
                 안전한 문서 처리
               </span>
               <span className="status-positive text-xs">
-                <i className="fas fa-magic mr-1"></i>
+                <i className="fas fa-brain mr-1"></i>
                 AI 기반 분석
               </span>
               <span className="status-positive text-xs">
-                <i className="fas fa-mobile-alt mr-1"></i>
+                <i className="fas fa-desktop mr-1"></i>
                 반응형 디자인
               </span>
             </div>

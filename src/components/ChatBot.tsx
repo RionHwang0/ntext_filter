@@ -144,7 +144,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ onNewAnswer, onNewQuestion }) => {
           className="w-16 h-16 professional-button rounded-full shadow-2xl relative group"
           style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)' }}
         >
-          <i className={`fas ${isOpen ? 'fa-times' : 'fa-comment-dots'} text-xl transition-all duration-300`}></i>
+          <i className={`fas ${isOpen ? 'fa-times' : 'fa-comments'} text-xl transition-all duration-300`}></i>
           
           {/* Pulse animation when closed */}
           {!isOpen && (
@@ -153,7 +153,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ onNewAnswer, onNewQuestion }) => {
           
           {/* Notification badge */}
           <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-            <i className="fas fa-robot text-white text-xs"></i>
+            <i className="fas fa-brain text-white text-xs"></i>
           </div>
         </button>
       </div>
@@ -183,19 +183,19 @@ const ChatBot: React.FC<ChatBotProps> = ({ onNewAnswer, onNewQuestion }) => {
             {messages.length === 0 && (
               <div className="text-center mt-8 reveal-up visible">
                 <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-blue-100 to-blue-200 rounded-full flex items-center justify-center">
-                  <i className="fas fa-hand-wave text-blue-500 text-2xl floating-element"></i>
+                  <i className="fas fa-robot text-blue-500 text-2xl floating-element"></i>
                 </div>
                 <h4 className="font-bold text-gray-700 mb-2">안녕하세요!</h4>
                 <p className="text-sm text-gray-500 mb-4">펀드에 대해 궁금한 것을 물어보세요.</p>
                 <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-xl border border-blue-200">
                   <div className="flex items-center justify-center space-x-2 text-sm">
                     <div className="flex items-center">
-                      <i className="fas fa-database text-blue-500 mr-1"></i>
+                      <i className="fas fa-file-alt text-blue-500 mr-1"></i>
                       <span className="text-blue-600 font-medium">웹페이지 정보</span>
                     </div>
                     <span className="text-gray-400">+</span>
                     <div className="flex items-center">
-                      <i className="fas fa-brain text-purple-500 mr-1"></i>
+                      <i className="fas fa-microchip text-purple-500 mr-1"></i>
                       <span className="text-purple-600 font-medium">Claude AI</span>
                     </div>
                   </div>
