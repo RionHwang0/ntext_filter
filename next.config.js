@@ -1,11 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export',
-  trailingSlash: true,
-  images: {
-    unoptimized: true,
-  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       // 브라우저에서 사용할 수 없는 모듈을 빈 객체로 처리
